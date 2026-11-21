@@ -1,0 +1,215 @@
+title = "Ключник: российские ключи и персональные данные"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Скомпилированные файлы Python"
+paths = ['''\.pyc$''', '''__pycache__''']
+
+# ---------- Ключи сервисов ----------
+
+[[rules]]
+id = "klyuchnik-gigachat-auth-key"
+description = "Ключ авторизации GigaChat / SaluteSpeech (Сбер)"
+regex = '''(?:^|[^A-Za-z0-9+/])([A-Za-z0-9+/]{98}==)(?:[^A-Za-z0-9+/=]|$)'''
+secretGroup = 1
+tags = ["key", "sber"]
+
+[[rules]]
+id = "klyuchnik-tinvest-token"
+description = "Токен T-Invest API (Т-Банк)"
+regex = '''(?:^|[^A-Za-z0-9_.-])(t\.[A-Za-z0-9_-]{60,120})(?:[^A-Za-z0-9_.-]|$)'''
+secretGroup = 1
+entropy = 4.5
+keywords = ["t."]
+tags = ["key", "tbank"]
+
+[[rules]]
+id = "klyuchnik-tbank-terminal-password"
+description = "Пароль терминала Т-Кассы (Т-Банк)"
+regex = '''(?i)(?:terminal_?password|terminalpassword)["']?\s*[:=]\s*["']?([A-Za-z0-9_!@#$%^&*+-]{8,64})'''
+secretGroup = 1
+keywords = ["terminal_password", "terminalpassword"]
+tags = ["key", "tbank"]
+
+[[rules]]
+id = "klyuchnik-yookassa-secret-key"
+description = "Секретный ключ ЮKassa"
+regex = '''(?:^|[^A-Za-z0-9_-])((?:live|test)_[A-Za-z0-9_-]{30,60})(?:[^A-Za-z0-9_-]|$)'''
+secretGroup = 1
+entropy = 4.5
+keywords = ["live_", "test_"]
+tags = ["key", "yookassa"]
+
+[[rules]]
+id = "klyuchnik-vk-token"
+description = "Ключ доступа VK"
+regex = '''(?:^|[^A-Za-z0-9_.-])(vk[12]\.a\.[A-Za-z0-9_-]{100,400})'''
+secretGroup = 1
+keywords = ["vk1.a.", "vk2.a."]
+tags = ["key", "vk"]
+
+[[rules]]
+id = "klyuchnik-vk-token-old"
+description = "Ключ доступа VK (старый вид)"
+regex = '''(?i)(?:vk|access_token)[^\n]{0,40}?\b([0-9a-f]{85})\b'''
+secretGroup = 1
+keywords = ["vk", "access_token"]
+tags = ["key", "vk"]
+
+[[rules]]
+id = "klyuchnik-dadata-key"
+description = "Ключ DaData"
+regex = '''\b([0-9a-f]{40})\b'''
+secretGroup = 1
+keywords = ["dadata"]
+tags = ["key", "dadata"]
+
+[[rules]]
+id = "klyuchnik-ozon-seller-key"
+description = "Api-Key Ozon Seller API"
+regex = '''(?i)api[-_]?key["']?\s*[:=]?\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\b'''
+secretGroup = 1
+keywords = ["ozon"]
+tags = ["key", "ozon"]
+
+[[rules]]
+id = "klyuchnik-ozon-performance-secret"
+description = "client_secret Ozon Performance API"
+regex = '''(?i)client_?secret["']?\s*[:=]\s*["']?([A-Za-z0-9_-]{20,128})'''
+secretGroup = 1
+keywords = ["performance.ozon.ru"]
+tags = ["key", "ozon"]
+
+[[rules]]
+id = "klyuchnik-wb-token"
+description = "Токен API Wildberries"
+regex = '''\b(eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,})'''
+secretGroup = 1
+keywords = ["eyj"]
+tags = ["key", "wb"]
+
+[[rules]]
+id = "klyuchnik-avito-secret"
+description = "client_secret Avito API"
+regex = '''(?i)client_?secret["']?\s*[:=]\s*["']?([A-Za-z0-9_-]{16,128})'''
+secretGroup = 1
+keywords = ["avito"]
+tags = ["key", "avito", "draft"]
+
+[[rules]]
+id = "klyuchnik-2gis-key"
+description = "Ключ API 2ГИС"
+regex = '''(?i)key["']?\s*[:=]\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\b'''
+secretGroup = 1
+keywords = ["2gis", "mapgl"]
+tags = ["key", "2gis"]
+
+[[rules]]
+id = "klyuchnik-selectel-token"
+description = "API-ключ Selectel (X-Token)"
+regex = '''(?i)(?:sel_?token|selectel_?api_?token|x-token)["']?\s*[:=]\s*["']?([A-Za-z0-9]{10,64}_\d{4,8})\b'''
+secretGroup = 1
+keywords = ["sel_token", "seltoken", "selectel", "x-token"]
+tags = ["key", "selectel", "draft"]
+
+[[rules]]
+id = "klyuchnik-selectel-password"
+description = "Пароль сервисного пользователя Selectel"
+regex = '''(?i)(?:os_password|password)["']?\s*[:=]\s*["']?([^\s"'<>${}]{8,128})'''
+secretGroup = 1
+keywords = ["selcloud"]
+tags = ["key", "selectel"]
+
+[[rules]]
+id = "klyuchnik-timeweb-token"
+description = "API-токен Timeweb Cloud"
+regex = '''(?i)(?:twc_token|timeweb_cloud_token|timeweb_token|token)["']?\s*[:=]\s*["']?(eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})'''
+secretGroup = 1
+keywords = ["timeweb", "twc_token", "twcrc"]
+tags = ["key", "timeweb"]
+
+[[rules]]
+id = "klyuchnik-cloudru-secret"
+description = "Секрет ключа доступа Cloud.ru"
+regex = '''(?i)(?:cloudru_(?:key_)?secret|evolution_(?:service_account_key_)?secret|key_secret|auth_secret)["']?\s*[:=]\s*["']?([A-Za-z0-9_+/=-]{16,128})'''
+secretGroup = 1
+keywords = ["cloudru", "cloud.ru", "evolution_"]
+tags = ["key", "cloudru", "draft"]
+
+[[rules]]
+id = "klyuchnik-kontur-focus-key"
+description = "Ключ API Контур.Фокус"
+regex = '''(?i)key["']?\s*[:=]\s*["']?([0-9a-f]{40})\b'''
+secretGroup = 1
+keywords = ["focus-api", "kontur"]
+tags = ["key", "kontur"]
+
+[[rules]]
+id = "klyuchnik-kontur-diadoc-key"
+description = "Ключ разработчика Контур.Диадок"
+regex = '''(?i)ddauth_api_client_id\s*=\s*([A-Za-z0-9_-]{10,64})'''
+secretGroup = 1
+keywords = ["ddauth_api_client_id"]
+tags = ["key", "kontur"]
+
+[[rules]]
+id = "klyuchnik-kontur-extern-key"
+description = "Ключ API Контур.Экстерн"
+regex = '''(?i)kontur[-_]apikey["']?\s*[:=]\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'''
+secretGroup = 1
+keywords = ["kontur-apikey", "kontur_apikey"]
+tags = ["key", "kontur"]
+
+# ---------- Персональные данные ----------
+
+[[rules]]
+id = "klyuchnik-snils"
+description = "СНИЛС"
+regex = '''\b(\d{3}[- ]\d{3}[- ]\d{3}[- ]\d{2})\b'''
+secretGroup = 1
+tags = ["pd"]
+
+[[rules]]
+id = "klyuchnik-snils-bare"
+description = "СНИЛС (без разделителей)"
+regex = '''(?i)(?:снилс|snils)[^0-9\n]{0,30}?\b(\d{11})\b'''
+secretGroup = 1
+tags = ["pd"]
+
+[[rules]]
+id = "klyuchnik-inn"
+description = "ИНН физического лица"
+regex = '''(?i)(?:инн|inn)[^0-9\n]{0,30}?(\d{12})\b'''
+secretGroup = 1
+tags = ["pd"]
+
+[[rules]]
+id = "klyuchnik-passport"
+description = "Паспорт РФ"
+regex = '''(?i)(?:паспорт|passport|серия)[^0-9\n]{0,30}?(\d{2} ?\d{2}[^0-9\n]{0,12}?\d{6})\b'''
+secretGroup = 1
+tags = ["pd"]
+
+[[rules]]
+id = "klyuchnik-mir-card"
+description = "Карта «Мир»"
+regex = '''\b(220[0-4][ -]?\d{4}[ -]?\d{4}[ -]?\d{4})\b'''
+secretGroup = 1
+keywords = ["220"]
+tags = ["pd"]
+
+[[rules]]
+id = "klyuchnik-oms"
+description = "Полис ОМС"
+regex = '''(?i)(?:полис|омс|oms|polis|енп)[^0-9\n]{0,30}?\b(\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4})\b'''
+secretGroup = 1
+tags = ["pd"]
+
+[[rules]]
+id = "klyuchnik-phone"
+description = "Мобильный телефон"
+regex = '''(?:\+7|\b8)[ (-]{0,2}(9\d{2}[ )-]{0,2}\d{3}[ -]?\d{2}[ -]?\d{2})\b'''
+secretGroup = 1
+tags = ["pd", "warn"]
