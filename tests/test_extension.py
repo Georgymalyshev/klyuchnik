@@ -32,7 +32,7 @@ document.getElementById("out").textContent = JSON.stringify(result);
 JS_NAMES = {
     "snils_ok": "snilsOk", "inn_ok": "innOk", "mir_card_ok": "mirCardOk", "oms_ok": "omsOk",
     "passport_ok": "passportOk", "gigachat_key_ok": "gigachatKeyOk", "prefixed_key_ok": "prefixedKeyOk",
-    "wb_token_ok": "wbTokenOk",
+    "wb_token_ok": "wbTokenOk", "value_ok": "valueOk",
 }
 
 
@@ -52,6 +52,8 @@ def make_numbers():
         "oms_ok": [random_digits(16) for i in range(3000)],
         "passport_ok": [random_digits(10) for i in range(3000)],
         "gigachat_key_ok": [], "prefixed_key_ok": [], "wb_token_ok": [],
+        "value_ok": ["fake-secret-1", "your_password_here", "os.getenv('X')", "aaaaaaaaaa",
+                     "12345678-1234-1234-1234-123456789012", "Kfpfdf7fjdv0_123456", "self.password"],
     }
     for i in range(300):
         numbers["gigachat_key_ok"].append(base64.b64encode((str(uuid.uuid4()) + ":" + str(uuid.uuid4())).encode()).decode())
@@ -60,6 +62,8 @@ def make_numbers():
         numbers["prefixed_key_ok"].append("test_" + test_rules.rnd("abcdefghijklmnopqrstuvwxyz_", 40))
         numbers["wb_token_ok"].append(test_rules.wb_token())
         numbers["wb_token_ok"].append(test_rules.jwt({"sub": "x", "exp": 1}))
+        numbers["value_ok"].append(test_rules.rnd_key(30))
+        numbers["value_ok"].append(test_rules.rnd(test_rules.HEX, 40))
     return numbers
 
 

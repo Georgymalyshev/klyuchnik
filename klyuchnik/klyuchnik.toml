@@ -4,8 +4,8 @@ title = "Ключник: российские ключи и персональн
 useDefault = true
 
 [[allowlists]]
-description = "Скомпилированные файлы Python"
-paths = ['''\.pyc$''', '''__pycache__''']
+description = "Скомпилированные файлы Python и lock-файлы менеджеров пакетов (в них только отпечатки версий)"
+paths = ['''\.pyc$''', '''__pycache__''', '''(?:^|[\\/])(?:composer\.lock|package-lock\.json|yarn\.lock|pnpm-lock\.yaml|poetry\.lock|Pipfile\.lock|Cargo\.lock|Gemfile\.lock|go\.sum|uv\.lock)$''']
 
 # ---------- Ключи сервисов ----------
 
@@ -28,7 +28,7 @@ tags = ["key", "tbank"]
 [[rules]]
 id = "klyuchnik-tbank-terminal-password"
 description = "Пароль терминала Т-Кассы (Т-Банк)"
-regex = '''(?i)(?:terminal_?password|terminalpassword)["']?\s*[:=]\s*["']?([A-Za-z0-9_!@#$%^&*+-]{8,64})'''
+regex = '''(?i)terminal_?password[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([A-Za-z0-9_!@#$%^&*+-]{8,64})'''
 secretGroup = 1
 keywords = ["terminal_password", "terminalpassword"]
 tags = ["key", "tbank"]
@@ -61,7 +61,7 @@ tags = ["key", "vk"]
 [[rules]]
 id = "klyuchnik-dadata-key"
 description = "Ключ DaData"
-regex = '''\b([0-9a-f]{40})\b'''
+regex = '''(?i)(?:dadata[\w.]*\(\s*["']|["'],\s*["']|(?:token|secret|api[-_]?key|apikey|key)[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?|token\s+)([0-9a-f]{40})\b'''
 secretGroup = 1
 keywords = ["dadata"]
 tags = ["key", "dadata"]
@@ -69,7 +69,7 @@ tags = ["key", "dadata"]
 [[rules]]
 id = "klyuchnik-ozon-seller-key"
 description = "Api-Key Ozon Seller API"
-regex = '''(?i)api[-_]?key["']?\s*[:=]?\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\b'''
+regex = '''(?i)(?:api[-_]?key|apikey)[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\b'''
 secretGroup = 1
 keywords = ["ozon"]
 tags = ["key", "ozon"]
@@ -77,7 +77,7 @@ tags = ["key", "ozon"]
 [[rules]]
 id = "klyuchnik-ozon-performance-secret"
 description = "client_secret Ozon Performance API"
-regex = '''(?i)client_?secret["']?\s*[:=]\s*["']?([A-Za-z0-9_-]{20,128})'''
+regex = '''(?i)client_?secret[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([A-Za-z0-9_-]{20,128})'''
 secretGroup = 1
 keywords = ["performance.ozon.ru"]
 tags = ["key", "ozon"]
@@ -93,7 +93,7 @@ tags = ["key", "wb"]
 [[rules]]
 id = "klyuchnik-avito-secret"
 description = "client_secret Avito API"
-regex = '''(?i)client_?secret["']?\s*[:=]\s*["']?([A-Za-z0-9_-]{16,128})'''
+regex = '''(?i)(?:avito[\w.-]*secret|client_?secret)[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([A-Za-z0-9_-]{16,128})'''
 secretGroup = 1
 keywords = ["avito"]
 tags = ["key", "avito", "draft"]
@@ -101,23 +101,23 @@ tags = ["key", "avito", "draft"]
 [[rules]]
 id = "klyuchnik-2gis-key"
 description = "Ключ API 2ГИС"
-regex = '''(?i)key["']?\s*[:=]\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\b'''
+regex = '''(?i)key[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\b'''
 secretGroup = 1
-keywords = ["2gis", "mapgl"]
+keywords = ["2gis", "mapgl", "dgis"]
 tags = ["key", "2gis"]
 
 [[rules]]
 id = "klyuchnik-selectel-token"
 description = "API-ключ Selectel (X-Token)"
-regex = '''(?i)(?:sel_?token|selectel_?api_?token|x-token)["']?\s*[:=]\s*["']?([A-Za-z0-9]{10,64}_\d{4,8})\b'''
+regex = '''(?i)(?:sel(?:ectel)?[\w.-]*(?:token|key)|x-token)[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([A-Za-z0-9]{10,64}_\d{4,8})\b'''
 secretGroup = 1
-keywords = ["sel_token", "seltoken", "selectel", "x-token"]
+keywords = ["sel_", "selectel", "x-token"]
 tags = ["key", "selectel", "draft"]
 
 [[rules]]
 id = "klyuchnik-selectel-password"
 description = "Пароль сервисного пользователя Selectel"
-regex = '''(?i)(?:os_password|password)["']?\s*[:=]\s*["']?([^\s"'<>${}]{8,128})'''
+regex = '''(?i)(?:os_password|password)[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([^\s"'`<>${}()\[\],;]{8,128})'''
 secretGroup = 1
 keywords = ["selcloud"]
 tags = ["key", "selectel"]
@@ -125,7 +125,7 @@ tags = ["key", "selectel"]
 [[rules]]
 id = "klyuchnik-timeweb-token"
 description = "API-токен Timeweb Cloud"
-regex = '''(?i)(?:twc_token|timeweb_cloud_token|timeweb_token|token)["']?\s*[:=]\s*["']?(eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})'''
+regex = '''(?i)(?:twc_token|timeweb[\w.-]*token|token)[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?(eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})'''
 secretGroup = 1
 keywords = ["timeweb", "twc_token", "twcrc"]
 tags = ["key", "timeweb"]
@@ -133,7 +133,7 @@ tags = ["key", "timeweb"]
 [[rules]]
 id = "klyuchnik-cloudru-secret"
 description = "Секрет ключа доступа Cloud.ru"
-regex = '''(?i)(?:cloudru_(?:key_)?secret|evolution_(?:service_account_key_)?secret|key_secret|auth_secret)["']?\s*[:=]\s*["']?([A-Za-z0-9_+/=-]{16,128})'''
+regex = '''(?i)(?:cloudru[\w.-]*secret|evolution[\w.-]*secret|key_secret|auth_secret)[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([A-Za-z0-9_+/=-]{16,128})'''
 secretGroup = 1
 keywords = ["cloudru", "cloud.ru", "evolution_"]
 tags = ["key", "cloudru", "draft"]
@@ -141,9 +141,9 @@ tags = ["key", "cloudru", "draft"]
 [[rules]]
 id = "klyuchnik-kontur-focus-key"
 description = "Ключ API Контур.Фокус"
-regex = '''(?i)key["']?\s*[:=]\s*["']?([0-9a-f]{40})\b'''
+regex = '''(?i)key[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([0-9a-f]{40})\b'''
 secretGroup = 1
-keywords = ["focus-api", "kontur"]
+keywords = ["focus-api", "focus_api", "focusapi", "kontur"]
 tags = ["key", "kontur"]
 
 [[rules]]
@@ -157,9 +157,9 @@ tags = ["key", "kontur"]
 [[rules]]
 id = "klyuchnik-kontur-extern-key"
 description = "Ключ API Контур.Экстерн"
-regex = '''(?i)kontur[-_]apikey["']?\s*[:=]\s*["']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'''
+regex = '''(?i)kontur[-_]?apikey[\w.-]*["'\]]*[ 	]*(?:=>|:=|:|=)[ 	]*["'`]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'''
 secretGroup = 1
-keywords = ["kontur-apikey", "kontur_apikey"]
+keywords = ["kontur-apikey", "kontur_apikey", "konturapikey"]
 tags = ["key", "kontur"]
 
 # ---------- Персональные данные ----------

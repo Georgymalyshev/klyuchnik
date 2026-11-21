@@ -162,3 +162,22 @@ def wb_token_ok(text):
     if not isinstance(payload, dict):
         return False
     return "sid" in payload and "acc" in payload and "s" in payload
+
+
+PLACEHOLDERS = ["fake", "test", "example", "sample", "dummy", "your", "xxx", "changeme", "change_me",
+                "placeholder", "secret", "password", "token", "1234567", "0000000", "abcdef0",
+                "getenv", "environ", "process.env", "config", "settings", "self."]
+
+
+def value_ok(text):
+    lower = text.lower()
+    for word in PLACEHOLDERS:
+        if word in lower:
+            return False
+    if len(set(text)) < 6:
+        return False
+    has_digit = False
+    for c in text:
+        if c.isdigit():
+            has_digit = True
+    return has_digit

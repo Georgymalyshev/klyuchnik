@@ -26,7 +26,7 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-tbank-terminal-password",
   "description": "Пароль терминала Т-Кассы (Т-Банк)",
-  "pattern": "(?:terminal_?password|terminalpassword)[\"']?\\s*[:=]\\s*[\"']?([A-Za-z0-9_!@#$%^&*+-]{8,64})",
+  "pattern": "terminal_?password[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([A-Za-z0-9_!@#$%^&*+-]{8,64})",
   "flags": "gi",
   "group": 1,
   "keywords": [
@@ -78,8 +78,8 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-dadata-key",
   "description": "Ключ DaData",
-  "pattern": "\\b([0-9a-f]{40})\\b",
-  "flags": "g",
+  "pattern": "(?:dadata[\\w.]*\\(\\s*[\"']|[\"'],\\s*[\"']|(?:token|secret|api[-_]?key|apikey|key)[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?|token\\s+)([0-9a-f]{40})\\b",
+  "flags": "gi",
   "group": 1,
   "keywords": [
    "dadata"
@@ -90,7 +90,7 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-ozon-seller-key",
   "description": "Api-Key Ozon Seller API",
-  "pattern": "api[-_]?key[\"']?\\s*[:=]?\\s*[\"']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\\b",
+  "pattern": "(?:api[-_]?key|apikey)[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\\b",
   "flags": "gi",
   "group": 1,
   "keywords": [
@@ -102,7 +102,7 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-ozon-performance-secret",
   "description": "client_secret Ozon Performance API",
-  "pattern": "client_?secret[\"']?\\s*[:=]\\s*[\"']?([A-Za-z0-9_-]{20,128})",
+  "pattern": "client_?secret[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([A-Za-z0-9_-]{20,128})",
   "flags": "gi",
   "group": 1,
   "keywords": [
@@ -126,7 +126,7 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-avito-secret",
   "description": "client_secret Avito API",
-  "pattern": "client_?secret[\"']?\\s*[:=]\\s*[\"']?([A-Za-z0-9_-]{16,128})",
+  "pattern": "(?:avito[\\w.-]*secret|client_?secret)[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([A-Za-z0-9_-]{16,128})",
   "flags": "gi",
   "group": 1,
   "keywords": [
@@ -138,12 +138,13 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-2gis-key",
   "description": "Ключ API 2ГИС",
-  "pattern": "key[\"']?\\s*[:=]\\s*[\"']?([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\\b",
+  "pattern": "key[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\\b",
   "flags": "gi",
   "group": 1,
   "keywords": [
    "2gis",
-   "mapgl"
+   "mapgl",
+   "dgis"
   ],
   "entropy": 0,
   "warn": false
@@ -151,12 +152,11 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-selectel-token",
   "description": "API-ключ Selectel (X-Token)",
-  "pattern": "(?:sel_?token|selectel_?api_?token|x-token)[\"']?\\s*[:=]\\s*[\"']?([A-Za-z0-9]{10,64}_\\d{4,8})\\b",
+  "pattern": "(?:sel(?:ectel)?[\\w.-]*(?:token|key)|x-token)[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([A-Za-z0-9]{10,64}_\\d{4,8})\\b",
   "flags": "gi",
   "group": 1,
   "keywords": [
-   "sel_token",
-   "seltoken",
+   "sel_",
    "selectel",
    "x-token"
   ],
@@ -166,7 +166,7 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-selectel-password",
   "description": "Пароль сервисного пользователя Selectel",
-  "pattern": "(?:os_password|password)[\"']?\\s*[:=]\\s*[\"']?([^\\s\"'<>${}]{8,128})",
+  "pattern": "(?:os_password|password)[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([^\\s\"'`<>${}()\\[\\],;]{8,128})",
   "flags": "gi",
   "group": 1,
   "keywords": [
@@ -178,7 +178,7 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-timeweb-token",
   "description": "API-токен Timeweb Cloud",
-  "pattern": "(?:twc_token|timeweb_cloud_token|timeweb_token|token)[\"']?\\s*[:=]\\s*[\"']?(eyJ[A-Za-z0-9_-]{10,}\\.eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,})",
+  "pattern": "(?:twc_token|timeweb[\\w.-]*token|token)[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?(eyJ[A-Za-z0-9_-]{10,}\\.eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,})",
   "flags": "gi",
   "group": 1,
   "keywords": [
@@ -192,7 +192,7 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-cloudru-secret",
   "description": "Секрет ключа доступа Cloud.ru",
-  "pattern": "(?:cloudru_(?:key_)?secret|evolution_(?:service_account_key_)?secret|key_secret|auth_secret)[\"']?\\s*[:=]\\s*[\"']?([A-Za-z0-9_+/=-]{16,128})",
+  "pattern": "(?:cloudru[\\w.-]*secret|evolution[\\w.-]*secret|key_secret|auth_secret)[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([A-Za-z0-9_+/=-]{16,128})",
   "flags": "gi",
   "group": 1,
   "keywords": [
@@ -206,11 +206,13 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-kontur-focus-key",
   "description": "Ключ API Контур.Фокус",
-  "pattern": "key[\"']?\\s*[:=]\\s*[\"']?([0-9a-f]{40})\\b",
+  "pattern": "key[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([0-9a-f]{40})\\b",
   "flags": "gi",
   "group": 1,
   "keywords": [
    "focus-api",
+   "focus_api",
+   "focusapi",
    "kontur"
   ],
   "entropy": 0,
@@ -231,12 +233,13 @@ const KLYUCHNIK_RULES = [
  {
   "id": "klyuchnik-kontur-extern-key",
   "description": "Ключ API Контур.Экстерн",
-  "pattern": "kontur[-_]apikey[\"']?\\s*[:=]\\s*[\"']?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})",
+  "pattern": "kontur[-_]?apikey[\\w.-]*[\"'\\]]*[ \t]*(?:=>|:=|:|=)[ \t]*[\"'`]?([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})",
   "flags": "gi",
   "group": 1,
   "keywords": [
    "kontur-apikey",
-   "kontur_apikey"
+   "kontur_apikey",
+   "konturapikey"
   ],
   "entropy": 0,
   "warn": false

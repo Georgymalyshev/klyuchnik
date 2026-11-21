@@ -152,3 +152,25 @@ const KLYUCHNIK_CHECKS = {
   "klyuchnik-yookassa-secret-key": prefixedKeyOk,
   "klyuchnik-wb-token": wbTokenOk,
 };
+
+const PLACEHOLDERS = ["fake", "test", "example", "sample", "dummy", "your", "xxx", "changeme", "change_me",
+                      "placeholder", "secret", "password", "token", "1234567", "0000000", "abcdef0",
+                      "getenv", "environ", "process.env", "config", "settings", "self."];
+
+function valueOk(text) {
+  const lower = text.toLowerCase();
+  for (const word of PLACEHOLDERS) {
+    if (lower.includes(word)) return false;
+  }
+  if (new Set(text).size < 6) return false;
+  return /[0-9]/.test(text);
+}
+
+const VALUE_RULES = [
+  "klyuchnik-tbank-terminal-password", "klyuchnik-vk-token-old", "klyuchnik-dadata-key",
+  "klyuchnik-ozon-seller-key", "klyuchnik-ozon-performance-secret", "klyuchnik-avito-secret",
+  "klyuchnik-2gis-key", "klyuchnik-selectel-token", "klyuchnik-selectel-password",
+  "klyuchnik-cloudru-secret", "klyuchnik-kontur-focus-key",
+  "klyuchnik-kontur-extern-key",
+];
+for (const id of VALUE_RULES) KLYUCHNIK_CHECKS[id] = valueOk;

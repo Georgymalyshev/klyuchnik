@@ -25,6 +25,16 @@ CHECKS = {
     "klyuchnik-wb-token": checks.wb_token_ok,
 }
 
+VALUE_RULES = [
+    "klyuchnik-tbank-terminal-password", "klyuchnik-vk-token-old", "klyuchnik-dadata-key",
+    "klyuchnik-ozon-seller-key", "klyuchnik-ozon-performance-secret", "klyuchnik-avito-secret",
+    "klyuchnik-2gis-key", "klyuchnik-selectel-token", "klyuchnik-selectel-password",
+    "klyuchnik-cloudru-secret", "klyuchnik-kontur-focus-key",
+    "klyuchnik-kontur-extern-key",
+]
+for rule_id in VALUE_RULES:
+    CHECKS[rule_id] = checks.value_ok
+
 WARN_ONLY = ["klyuchnik-phone"]
 
 

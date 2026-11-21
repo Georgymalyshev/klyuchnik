@@ -69,7 +69,7 @@ SHOULD_FIND = [
     ("klyuchnik-avito-secret", 'AVITO_CLIENT_SECRET = "' + rnd_key(40) + '"'),
     ("klyuchnik-2gis-key", "const map = new mapgl.Map('map', { center: [82.9, 55.0], key: '" + uuid4() + "' });"),
     ("klyuchnik-2gis-key", "url = 'https://catalog.api.2gis.com/3.0/items?q=cafe&key=" + uuid4() + "'"),
-    ("klyuchnik-selectel-token", 'SEL_TOKEN = "' + rnd_key(12) + '_123456"'),
+    ("klyuchnik-selectel-token", 'SEL_TOKEN = "' + rnd(LETTERS + DIGITS, 12) + '_123456"'),
     ("klyuchnik-selectel-password", "OS_AUTH_URL=https://cloud.api.selcloud.ru/identity/v3/\nOS_PASSWORD=" + rnd_key(16)),
     ("klyuchnik-timeweb-token", "export TWC_TOKEN=" + jwt({"sub": "user", "exp": 1800000000})),
     ("klyuchnik-cloudru-secret", 'CLOUDRU_KEY_SECRET = "' + rnd_key(32) + '"'),
@@ -86,6 +86,12 @@ SHOULD_FIND = [
     ("klyuchnik-oms", "полис ОМС 5400 0012 3456 7892"),  # gitleaks:allow
     ("klyuchnik-phone", "Телефон: +7 (913) 123-45-67"),  # gitleaks:allow
     ("klyuchnik-phone", "call 8-913-123-45-67"),  # gitleaks:allow
+    ("klyuchnik-ozon-seller-key", "<?php // Ozon\n$config['OZON_API_KEY'] = '" + uuid4() + "';"),
+    ("klyuchnik-timeweb-token", "package main // timeweb\nTWC_TOKEN := \"" + jwt({"sub": "u", "exp": 1800000000}) + "\""),
+    ("klyuchnik-avito-secret", "avito:\n  avito_secret: \"" + rnd_key(40) + "\""),
+    ("klyuchnik-2gis-key", "DGIS_API_KEY=" + uuid4()),
+    ("klyuchnik-selectel-token", "{'SELECTEL_TOKEN': '" + rnd(LETTERS + DIGITS, 14) + "_654321'}"),
+    ("klyuchnik-kontur-focus-key", 'FOCUS_API_KEY = "' + rnd(HEX, 40) + '"'),
 ]
 
 SHOULD_NOT_FIND = [
@@ -109,6 +115,12 @@ SHOULD_NOT_FIND = [
     "# 2gis\nrow_id = '" + uuid4() + "'",
     "полис ОМС 1234 5678 9012 3456",
     "order_number = 79131234567890",
+    'avito = AvitoClient(client_secret="fake-secret-for-tests")',
+    "OS_AUTH_URL=https://cloud.api.selcloud.ru/identity/v3/\npassword = os.getenv('OS_PASSWORD')",
+    "# selcloud\nPASSWORD = self.password_from_vault",
+    'ozon = {"Api-Key": "12345678-1234-1234-1234-123456789012"}',
+    'selectel_api_token = "0000000000_000000"',
+    '# dadata\n"reference": "' + rnd(HEX, 40) + '",',
 ]
 
 
@@ -136,6 +148,12 @@ def our_rules_by_file(folder):
 
 
 class RulesTests(unittest.TestCase):
+
+    def test_lock_files_are_skipped(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with open(os.path.join(folder, "composer.lock"), "w", encoding="utf-8") as f:
+                f.write('{"name": "hflabs/dadata", "token": "' + rnd(HEX, 40) + '"}\n')
+            self.assertEqual(our_rules_by_file(folder), {})
 
     def test_should_find(self):
         texts = []
