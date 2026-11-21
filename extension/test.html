@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ключник: тестовый чат</title>
+<style>
+  :root { --bg: #f6f7fb; --card: #fff; --text: #1b1b1f; --muted: #5d5f6b; --line: #d9dbe3; --accent: #1f4ea0; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #15161a; --card: #1f2026; --text: #e6e7ec; --muted: #a3a5b1; --line: #3a3c46; --accent: #8fb2ff; }
+  }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 40px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 14px; }
+  .examples { display: flex; flex-wrap: wrap; gap: 8px; }
+  button { font: inherit; padding: 6px 12px; border-radius: 8px; border: 1px solid var(--line);
+           background: var(--card); color: var(--text); cursor: pointer; }
+  #log { min-height: 120px; }
+  .msg { padding: 8px 12px; border-radius: 10px; background: var(--bg); margin: 6px 0; white-space: pre-wrap; word-break: break-all; }
+  .empty { color: var(--muted); }
+  .row { display: flex; gap: 8px; align-items: flex-end; }
+  textarea, .editable { flex: 1; min-height: 60px; font: inherit; padding: 10px 12px; border-radius: 10px;
+                        border: 1px solid var(--line); background: var(--card); color: var(--text); }
+  .editable { outline: none; white-space: pre-wrap; word-break: break-all; }
+  .send { background: var(--accent); color: #fff; border-color: var(--accent); }
+  @media (prefers-color-scheme: dark) { .send { color: #10131a; } }
+  label { color: var(--muted); font-size: 14px; display: block; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Тестовый чат</h1>
+  <p class="sub">Это не настоящий ИИ-чат: сообщения никуда не уходят. Страница нужна, чтобы проверить, как Ключник останавливает отправку. Все ключи и номера здесь выдуманные.</p>
+
+  <div class="card">
+    <label>Примеры: нажмите, чтобы вставить в поле</label>
+    <div class="examples">
+      <button data-example="gigachat">Ключ GigaChat</button>
+      <button data-example="snils">СНИЛС</button>
+      <button data-example="passport">Паспорт</button>
+      <button data-example="card">Карта «Мир»</button>
+      <button data-example="dadata">Ключ DaData</button>
+      <button data-example="vk">Ключ VK</button>
+      <button data-example="badsnils">СНИЛС с ошибкой</button>
+      <button data-example="plain">Обычный текст</button>
+    </div>
+  </div>
+
+  <div class="card" id="log"><div class="empty">Отправленных сообщений пока нет.</div></div>
+
+  <div class="card">
+    <label for="input">Поле ввода (обычное), Enter — отправить, Shift+Enter — новая строка</label>
+    <div class="row">
+      <textarea id="input" placeholder="Напишите сообщение…"></textarea>
+      <button class="send" id="send">Отправить</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <label>Поле ввода другого вида (как в некоторых чатах)</label>
+    <div class="row">
+      <div class="editable" id="editable" contenteditable="true"></div>
+      <button class="send" id="send2">Отправить</button>
+    </div>
+  </div>
+</main>
+<script src="rules.js"></script>
+<script src="checks.js"></script>
+<script src="detect.js"></script>
+<script src="guard.js"></script>
+<script src="test.js"></script>
+</body>
+</html>

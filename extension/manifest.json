@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Ключник — защитник ИИ-чатов",
+  "version": "0.1.0",
+  "description": "Предупреждает, если в сообщении для GigaChat, Алисы или DeepSeek есть ключ, СНИЛС, паспорт или другие секреты. Всё проверяется на вашем компьютере.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://giga.chat/*",
+        "https://*.giga.chat/*",
+        "https://alice.yandex.ru/*",
+        "https://chat.deepseek.com/*"
+      ],
+      "js": ["rules.js", "checks.js", "detect.js", "guard.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "klyuchnik-guard@klyuchnik.github",
+      "strict_min_version": "115.0"
+    }
+  }
+}
