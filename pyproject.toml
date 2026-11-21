@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "klyuchnik"
+version = "0.1.0"
+description = "Ищет ключи российских сервисов и российские персональные данные в коде (правила для gitleaks)"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/Georgymalyshev/klyuchnik"
+
+[project.scripts]
+klyuchnik-scan = "klyuchnik.scan:main"
+klyuchnik-install = "klyuchnik.install:main"
+
+[tool.setuptools]
+packages = ["klyuchnik"]
+
+[tool.setuptools.package-data]
+klyuchnik = ["klyuchnik.toml"]

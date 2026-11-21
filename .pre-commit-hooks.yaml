@@ -1,0 +1,6 @@
+- id: klyuchnik
+  name: Ключник
+  description: Ищет ключи российских сервисов и российские персональные данные
+  entry: klyuchnik-scan --staged
+  language: python
+  pass_filenames: false
