@@ -42,7 +42,7 @@ klyuchnik-install
 ```yaml
 repos:
   - repo: https://github.com/Georgymalyshev/klyuchnik
-    rev: v0.1.0
+    rev: v0.2.0
     hooks:
       - id: klyuchnik
 ```
@@ -51,7 +51,7 @@ repos:
 
 ```yaml
 - uses: actions/checkout@v7
-- uses: Georgymalyshev/klyuchnik@v0.1.0
+- uses: Georgymalyshev/klyuchnik@v0.2.0
 ```
 
 **Только правила, без Python:** файл [`klyuchnik/klyuchnik.toml`](klyuchnik/klyuchnik.toml) подключается к gitleaks или Betterleaks напрямую (`gitleaks dir . --config klyuchnik.toml`). Но тогда не будет проверки контрольных сумм, и ложных тревог станет больше.
