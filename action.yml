@@ -3,7 +3,7 @@ description: "Ищет ключи российских сервисов и ро�
 runs:
   using: composite
   steps:
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v7
       with:
         python-version: "3.12"
     - shell: bash
